@@ -6,11 +6,11 @@ SHELL_SCRIPT_DIR=$(dirname "$0")
 cd "$SHELL_SCRIPT_DIR" || exit 1
 
 SRC_DIR="../"
-mapfile -t REMOTE_HOSTS_DIR < <(grep -vE '^[[:space:]]*($|#)' ./prepartion-remote-hosts-dir.txt)
+mapfile -t REMOTE_HOSTS_DIR < <(grep -vE '^[[:space:]]*($|#)' ./preparation-remote-hosts-dir.txt)
 EXCLUDE_FILE="./exclude-file.txt"
 USE_EXCLUDE_FILE="${1:-}"
 RSYNC_ARGS=()
-if [[ "$USE_EXCLUDE_FILE" == "exclude" ]]
+if [[ "$USE_EXCLUDE_FILE" == "exclude" ]]; then
 	RSYNC_ARGS+=("--exclude-from=$EXCLUDE_FILE")
 fi
 
