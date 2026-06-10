@@ -1,0 +1,2 @@
+# cert file path in the remote host
+# write remote host with path in ssh resource style

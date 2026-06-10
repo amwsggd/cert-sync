@@ -1,0 +1,3 @@
+/shes/deploy-locally.sh
+/nginx/nginx.conf
+/docker-compose.yml
