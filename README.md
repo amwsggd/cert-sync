@@ -34,11 +34,13 @@ It's recommend to use a hook to call `deploy-cert.sh` when certs files are updat
 
 ## use Systemd.path as certs updating listener
 
+### trigger
 use the file changing below as trigger which is cross-platform supported as the `:` is built-in command in shell
 ```sh
 sudo sh -c ': > /opt/acme/hooks/example.com.renewed'
 ```
 
+### listener
 `/etc/systemd/system/deploy-cert-example.com.service`
 ```ini
 [Unit]
@@ -68,7 +70,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now deploy-cert-example.com.path
 ```
 
-test
+### test
 ```sh
 sudo sh -c ': > /opt/acme/hooks/example.com.renewed'
 ```
