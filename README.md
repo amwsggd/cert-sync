@@ -28,19 +28,19 @@ ideal file structure
     └── remote-hosts-dir.txt
 ```
 
-# Hook usage
+## Hook usage
 
 It's recommend to use a hook to call `deploy-cert.sh` when certs files are updated
 
-## use Systemd.path as certs updating listener
+### use Systemd.path as certs updating listener
 
-### trigger
+#### trigger
 use the file changing below as trigger which is cross-platform supported as the `:` is built-in command in shell
 ```sh
 sudo sh -c ': > /opt/acme/hooks/example.com.renewed'
 ```
 
-### listener
+#### listener
 `/etc/systemd/system/deploy-cert-example.com.service`
 ```ini
 [Unit]
@@ -70,7 +70,27 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now deploy-cert-example.com.path
 ```
 
-### test
+#### test
 ```sh
 sudo sh -c ': > /opt/acme/hooks/example.com.renewed'
 ```
+
+## Passwordless permission permit
+
+### sudoers
+
+```sh
+sudo EDITOR=vim visudo -f /etc/sudoers.d/deploy-cert
+```
+
+```sudoers
+<username> ALL=(root) NOPASSWD: /usr/local/sbin/deploy-cert-xx.sh
+<username> ALL=(root) NOPASSWD: /usr/local/sbin/deploy-cert-aa.sh
+```
+
+#### check
+
+```sh
+sudo visudo -cf /etc/sudoers.d/deploy-cert
+```
+
