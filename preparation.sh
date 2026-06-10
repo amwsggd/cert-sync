@@ -5,7 +5,7 @@ ORIGINAL_DIR=$(pwd)
 SHELL_SCRIPT_DIR=$(dirname "$0")
 cd "$SHELL_SCRIPT_DIR" || exit 1
 
-SRC_DIR="../"
+source .env
 mapfile -t REMOTE_HOSTS_DIR < <(grep -vE '^[[:space:]]*($|#)' ./preparation-remote-hosts-dir.txt)
 EXCLUDE_FILE="./exclude-file.txt"
 USE_EXCLUDE_FILE="${1:-}"
@@ -19,7 +19,7 @@ for hostDir in "${REMOTE_HOSTS_DIR[@]}"; do
         innerHostDir=$(echo "$hostDir" | cut -d":" -f2)
 
         ssh "$host" "mkdir -p ${innerHostDir}.new"
-        rsync -av --delete "${RSYNC_ARGS[@]}" "$SRC_DIR" "${hostDir}"
+        rsync -av --delete "${RSYNC_ARGS[@]}" "$PREPARATION_FILES_DIR" "${hostDir}"
 
         ssh "$host" "
                 set -e

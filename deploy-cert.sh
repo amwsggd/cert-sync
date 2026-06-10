@@ -5,8 +5,7 @@ ORIGINAL_DIR=$(pwd)
 SHELL_SCRIPT_DIR=$(dirname "$0")
 cd "$SHELL_SCRIPT_DIR" || exit 1
 
-# relative path recommended
-SRC_DIR=""
+source .env
 mapfile -t REMOTE_HOSTS_DIR < <(grep -vE '^[[:space:]]*($|#)' ./remote-hosts-dir.txt)
 EXCLUDE_FILE="./exclude-file.txt"
 
@@ -16,14 +15,14 @@ for hostDir in "${REMOTE_HOSTS_DIR[@]}"; do
 	host=$(echo "$hostDir" | cut -d":" -f1)
 	innerHostDir=$(echo "$hostDir" | cut -d":" -f2)
 
-	directly sync the cert file
+	# directly sync the cert file
 	rsync -av --delete \
 	       --exclude-from="$EXCLUDE_FILE" \
-       	       "$SRC_DIR/fullchain.pem" "${hostDir}/fullchain.pem.new"
+       	       "$CERT_DIR/fullchain.pem" "${hostDir}/fullchain.pem.new"
 
 	rsync -av --delete \
 	       --exclude-from="$EXCLUDE_FILE" \
-       	       "$SRC_DIR/private.pem" "${hostDir}/private.pem.new"
+       	       "$CERT_DIR/private.pem" "${hostDir}/private.pem.new"
 
 	ssh "$host" "
                 set -e
