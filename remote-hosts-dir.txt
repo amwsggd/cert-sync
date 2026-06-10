@@ -1,2 +1,3 @@
 # cert file path in the remote host
+# relative path is recommended
 # write remote host with path in ssh resource style
